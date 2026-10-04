@@ -1,0 +1,51 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Unit and end-to-end tests (standard library only)
+        run: python -m unittest -v
+      - name: Install and run the CLI
+        run: |
+          pip install .
+          accept --version
+          printf 'r01-n01\nr01-n02\n' > hosts.txt && accept plan hosts.txt | head -20
+
+  acceptance-run:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Round 1 (expected to be NOT READY)
+        run: |
+          python -m acceptance simulate --round 1 -o evidence/round1
+          python -m acceptance evaluate evidence/round1 --out-dir report/round1 && exit 1 || test $? -eq 1
+      - name: Round 2 retest (expected to be READY)
+        run: |
+          python -m acceptance simulate --round 2 -o evidence/round2
+          python -m acceptance evaluate evidence/round1 evidence/round2 --out-dir report/round2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-reports
+          path: report/
+          retention-days: 30
