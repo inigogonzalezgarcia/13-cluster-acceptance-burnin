@@ -1,0 +1,41 @@
+# Acceptance criteria for lab-cluster-a. Every number here is agreed with the customer before testing
+# starts; the values are lab assumptions, not vendor specifications (see docs/criteria.md).
+
+[cluster]
+name = "lab-cluster-a"
+min_accepted_gpu_fraction = 0.90  # handover needs at least this share of contracted GPUs accepted
+
+[inventory]
+gpus_per_node = 8
+gpu_model = "LAB-GPU-80GB"
+driver_version = "lab-570.1"
+vbios_version = "LAB-96.00.A1"
+ib_ports_per_node = 8
+ib_rate_gbps = 400
+max_ib_symbol_errors = 0
+
+[diag]
+level = 3
+required_tests = ["Software", "PCIe", "Memory", "Memory Bandwidth", "Diagnostic", "Targeted Stress", "Targeted Power"]
+warn_counts_as_pass = true
+
+[nccl.node]  # all_reduce_perf on the 8 GPUs of one node (NVLink)
+min_busbw_gbps = 450
+
+[nccl.rack]  # all_reduce_perf across the accepted nodes of a rack (InfiniBand)
+min_busbw_gbps = 340
+min_nodes = 6
+
+[burnin]
+hours = 72
+max_gpu_temp_c = 87
+max_throttle_fraction = 0.01
+max_dbe = 0
+sbe_warn_per_gpu = 10
+max_sbe_per_gpu = 100
+hardware_xids = [48, 63, 64, 74, 79, 92, 95, 119, 120]
+min_workload_pass_rate = 0.99
+
+[burnin.job]  # the cluster-wide burn-in training job
+min_mtbi_hours = 24
+min_goodput = 0.90
