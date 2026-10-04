@@ -1,0 +1,18 @@
+# nThread 1 nGpus 1 minBytes 8 maxBytes 1073741824 step: 2(factor) warmup iters: 5 iters: 20 agg iters: 1 validation: 1 graph: 0
+#
+# Using devices
+#  Rank  0 Group  0 Pid  40000 on    r09-n01 device  0 [0x18] LAB-GPU-80GB
+#  Rank  1 Group  0 Pid  40001 on    r09-n01 device  1 [0x28] LAB-GPU-80GB
+#  Rank  2 Group  0 Pid  40002 on    r09-n02 device  0 [0x18] LAB-GPU-80GB
+#  Rank  3 Group  0 Pid  40003 on    r09-n02 device  1 [0x28] LAB-GPU-80GB
+#
+#                                                              out-of-place                       in-place          
+#       size         count      type   redop    root     time   algbw   busbw #wrong     time   algbw   busbw #wrong
+#        (B)    (elements)                               (us)  (GB/s)  (GB/s)            (us)  (GB/s)  (GB/s)       
+           8             2     float     sum      -1     21.3    0.00    0.00      0     20.9    0.00    0.00      0
+     1048576        262144     float     sum      -1     95.2   11.01   16.52      0     94.8   11.06   16.59      0
+   268435456      67108864     float     sum      -1   1302.1  206.15  309.23      0   1300.4  206.43  309.64      2
+  1073741824     268435456     float     sum      -1   5080.6  211.34  317.01      0   5075.1  211.57  317.35    N/A
+# Out of bounds values : 0 OK
+# Avg bus bandwidth    : 160.689 
+#

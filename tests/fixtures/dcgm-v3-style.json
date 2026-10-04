@@ -1,0 +1,14 @@
+{
+  "DCGM GPU Diagnostic": {
+    "test_categories": [
+      {"category": "Deployment", "tests": [{"name": "Software", "results": [{"status": "Pass"}]}]},
+      {"category": "Hardware", "tests": [
+        {"name": "Memory", "results": [{"gpu_id": "0", "status": "Pass"}, {"gpu_id": "1", "status": "Fail",
+          "warnings": [{"warning": "uncorrectable ECC error during the memory test"}]}]},
+        {"name": "Diagnostic", "results": [{"gpu_id": "0", "status": "Warn", "warnings": [{"warning": "clocks below target"}]},
+          {"gpu_id": "1", "status": "Skip"}]}
+      ]}
+    ]
+  },
+  "note": "hand-written fixture in the general shape of dcgmi diag -j"
+}
