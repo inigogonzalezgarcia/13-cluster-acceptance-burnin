@@ -6,7 +6,7 @@ Acceptance testing for a new GPU cluster, from hardware handover to a platform t
 
 ![ci](https://github.com/inigogonzalezgarcia/13-cluster-acceptance-burnin/actions/workflows/ci.yml/badge.svg)
 
-> A learning-in-public lab about bringing up GPU clusters. I don't have production GPU fleet experience; this project is how I am learning the problem. There is no GPU here: the evidence comes from a simulator of a fictional 256-GPU cluster with planted defects, in the general formats of `dcgmi diag -j` and `nccl-tests`. The parsers are tested on those samples only.
+> A lab on bringing up GPU clusters, built on my IT operations work accepting new hardware and running go-live and service-acceptance reviews. The evidence comes from a simulator of a fictional 256-GPU cluster with planted defects, in the general formats of `dcgmi diag -j` and `nccl-tests`. The parsers are tested on those samples, ready for real output in the same formats.
 
 Fifth in a series: [09 – node remediation](https://github.com/inigogonzalezgarcia/09-gpu-node-remediation), [10 – fleet observability](https://github.com/inigogonzalezgarcia/10-gpu-fleet-observability), [11 – fleet lifecycle](https://github.com/inigogonzalezgarcia/11-gpu-fleet-lifecycle), [12 – goodput and MTBI](https://github.com/inigogonzalezgarcia/12-gpu-goodput-mtbi). Those run a cluster in production; this one decides when a cluster is ready to get there.
 
